@@ -7,18 +7,17 @@
 
 from openerp.tools import float_is_zero
 
-
 if tracer == 'already':
     already_option = message
     if already_option == 'add':
-        question = _('Enter inventory quantity to add:')
+        question = _('Inventory quantity to add:')
     else:
-        question = _('Enter new inventory quantity:')
+        question = _('New inventory quantity:')
     product = env['product.product'].browse(int(terminal.tmp_val2))
     terminal.write({'tmp_val4': already_option})
 else:
     product_code = message
-    question = _('Enter inventory quantity:')
+    question = _('Inventory quantity:')
     product = model.search(['|', ('default_code', '=', product_code), ('ean13', '=', product_code)])[0]
     terminal.write({'tmp_val2': product.id})
 
