@@ -8,11 +8,12 @@
 from openerp.tools import float_is_zero
 
 if tracer == 'already':
-    already_option = message
-    if already_option == 'add':
+    if message:
         question = _('Inventory quantity to add:')
+        already_option = 'add'
     else:
         question = _('New inventory quantity:')
+        already_option = 'rewrite'
     product = env['product.product'].browse(int(terminal.tmp_val2))
     terminal.write({'tmp_val4': already_option})
 else:

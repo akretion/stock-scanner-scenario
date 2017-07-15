@@ -22,15 +22,10 @@ res.append(_('Theoric qty: %s') % theoric_qty_display)
 cur_qty_display = qty_int and int(inv_line.product_qty) or inv_line.product_qty
 res.append(_('QTY ALREADY INVENTORIED: %s') % cur_qty_display)
 
-#act = 'C'
-#res += [
-#    '',
-#    (_('Do you want to ADD to the already inventoried qty?')),
-#    '',
-#    (_('If you answer no, you will enter a new inventory qty.')),
-#    ]
-act = 'L'
-res = [
-    ('add', 'Add to already inventoried qty'),
-    ('rewrite', 'Enter new inventoried qty'),
+act = 'C'
+res += [
+    '',
+    (_('Do you want to ADD to the already inventoried qty?')),
+    '',
+    (_('If you answer no, you will enter a new inventory qty.')),
     ]
