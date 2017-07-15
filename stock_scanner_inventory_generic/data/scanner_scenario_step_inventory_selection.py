@@ -7,15 +7,12 @@
 
 
 # Select inventory
-sio = env['stock.inventory']
-inventories = sio.search([('state', '=', 'confirm')])
-if not inventories:
-     print "no inventory found"  # TODO
-result = []
-for inventory in inventories:
-    result.append((inventory.id, inventory.name))
-
-terminal.write({'tmp_val2': '', 'tmp_val3': ''})
-
-act = 'L'
-res = result
+terminal.write({'tmp_val2': '', 'tmp_val3': '', 'tmp_val4': ''})
+inventories = env['stock.inventory'].search([('state', '=', 'confirm')])
+if inventories:
+    act = 'L'
+    res = []
+    for inventory in inventories:
+        res.append((inventory.id, inventory.name))
+else:
+     act = 'A'

@@ -15,11 +15,12 @@ ppo = env['product.product']
 res = []
 if tracer == 'inventory':
     # Write inventory ID in tmp_val1
-    terminal.write({'tmp_val1': message})
+    inv_id = message
+    terminal.write({'tmp_val1': inv_id})
 elif tracer == 'product' and terminal.tmp_val2:
+    quantity = float(message)
     inv = sio.browse(int(terminal.tmp_val1))
     product = ppo.browse(int(terminal.tmp_val2))
-    quantity = float(message)
     res.append(_("Product: %s") % product.display_name)
     if product.uom_id == env.ref('product.product_uom_unit'):
         qty_int = True
@@ -34,10 +35,12 @@ elif tracer == 'product' and terminal.tmp_val2:
         if inv_line.location_id != inv.location_id:
             res.append(_(
                 "ERROR: Location on inventory line ID %s is not %s") % (inv_line.id, inv.location_id.display_name))
+        if terminal.tmp_val4 == 'add':
+            quantity += inv_line.product_qty
         inv_line.product_qty = quantity
         theoric_qty = inv_line.theoretical_qty
     else:
-        silo.create({
+        inv_line = silo.create({
             'inventory_id': inv.id,
             'product_id': product.id,
             'product_uom_id': product.uom_id.id,
@@ -66,7 +69,7 @@ elif tracer == 'product' and terminal.tmp_val2:
     else:
         res.append(_('NO STOCK LEVEL VARIATION'))
 
-    terminal.write({'tmp_val2': '', 'tmp_val3': ''})
+    terminal.write({'tmp_val2': '', 'tmp_val3': '', 'tmp_val4': ''})
 
 act = 'T'
 res += [
