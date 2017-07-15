@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<scenario>
+  <id>scanner_scenario_inventory</id>
+  <model_id>product.product</model_id>
+  <name>Inventory</name>
+  <sequence>10</sequence>
+  <active>True</active>
+  <type>scenario</type>
+  <Step id="scanner_scenario_step_inventory_selection" name="Select inventory" step_back="False" step_stop="False" step_start="True"/>
+  <Step id="scanner_scenario_step_inventory_product_code" name="Product code" step_back="True" step_stop="False" step_start="False"/>
+  <Step id="scanner_scenario_step_inventory_product_quantity" name="Product quantity" step_back="True" step_stop="False" step_start="False"/>
+  <Step id="scanner_scenario_step_inventory_unknown_product" name="Unknown product" step_back="False" step_stop="False" step_start="False"/>
+  <Transition id="scanner_scenario_transition_inventory_selected" name="Inventory selected" sequence="0" tracer="inventory" to_id="scanner_scenario_step_inventory_product_code" transition_type="keyboard" condition="message" from_id="scanner_scenario_step_inventory_selection"/>
+  <Transition id="scanner_scenario_transition_inventory_product_selection_ok" name="Product selection OK" sequence="10" tracer="" to_id="scanner_scenario_step_inventory_product_quantity" transition_type="keyboard" condition="model.search(['|', ('default_code', '=', message), ('ean13', '=', message)])" from_id="scanner_scenario_step_inventory_product_code"/>
+  <Transition id="scanner_scenario_transition_inventory_product_next" name="Next product" sequence="10" tracer="product" to_id="scanner_scenario_step_inventory_product_code" transition_type="keyboard" condition="message" from_id="scanner_scenario_step_inventory_product_quantity"/>
+  <Transition id="scanner_scenario_transition_inventory_product_selection_nok" name="Product selection NOK" sequence="20" tracer="" to_id="scanner_scenario_step_inventory_unknown_product" transition_type="keyboard" condition="not model.search(['|', ('default_code', '=', message), ('ean13', '=', message)])" from_id="scanner_scenario_step_inventory_product_code"/>
+</scenario>
